@@ -1,22 +1,27 @@
-# Mattermost 自定义修改版
+# Mattermost 修改版 — 夏语魔改工作区
 
-基于 Mattermost 官方 APK 修改，适配自签 SSL 证书环境。
+基于 `mattermost/mattermost-mobile` Android APK 的深度修改。
 
-## 修改内容
+## NAS 环境
+| 工具 | 路径 | 版本 |
+|------|------|------|
+| apktool | `~/opt/apktool` | 2.11.0 |
+| uber-apk-signer | `~/opt/uber-apk-signer` | 1.3.0 |
+| JDK | `/vol1/jdk-17.0.2` | 17.0.2 |
+| apksigner | `/vol1/android-sdk/build-tools/35.0.0/` | 35.0.0 |
 
-- **network_security_config.xml**: 信任系统 + 用户证书，支持自签证书
-- 不动源码，仅改 XML 配置
+## 快速构建
+```bash
+bash build.sh <原版.apk> <输出.apk>
+```
 
-## 安装前提
+## 当前修改
+- `network_security_config.xml`：信任用户证书
+- `AndroidManifest.xml`：引用 networkSecurityConfig
 
-1. 手机上安装自签证书（设置 → 安全 → 加密与凭据 → 从存储设备安装）
-2. 安装本修改版 APK
-
-## 构建方式
-
-详见 BUILD.md
-
-## 当前版本
-
-- Mattermost v2.26.0
-- 修改日期：2026-05-25
+## 魔改方向
+反编译后可直接修改：
+- `res/` — 图标、颜色、字符串、布局 XML
+- `smali/` — Java 字节码（反编译后的 Smali 代码）
+- `AndroidManifest.xml` — 权限、组件配置
+- `assets/` — Web 资源、JS bundle
